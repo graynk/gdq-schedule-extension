@@ -109,7 +109,7 @@ function main(){
     }
 
     const switcher = document.createElement('input');
-    switcher.name = 'Filter done';
+    switcher.name = 'Hide done';
     switcher.type = 'checkbox';
     switcher.checked = true;
 
@@ -158,7 +158,7 @@ function main(){
     }
 
     switcher.addEventListener('change', switchListener);
-    headerNameCell.textContent += ' | Filter completed runs: ';
+    headerNameCell.textContent += ' | Hide finished runs: ';
     headerNameCell.appendChild(switcher);
 
     switchListener();
