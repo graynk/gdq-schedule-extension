@@ -1,0 +1,19 @@
+{
+
+  "description": "Adds a toggle to GDQ Schedule page, which allows hiding already finished runs",
+  "manifest_version": 2,
+  "name": "GDQ Schedule Enhancement",
+  "version": "1.0",
+  "homepage_url": "https://github.com/graynk/gdq-schedule",
+  "icons": {
+    "48": "icons/gdq-48.png"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["*://gamesdonequick.com/schedule"],
+      "js": ["schedule.js"]
+    }
+  ]
+
+}
