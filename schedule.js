@@ -140,14 +140,11 @@ function main(){
             if (row.children[0].classList[0] === 'start-time') {
                 currentDateTime = parseTime(currentDateTime, row.children[0].textContent);
                 const duration = new Duration(row.nextElementSibling.children[0].textContent);
-                console.log(duration);
-                console.log(row.nextElementSibling.children[0].textContent);
                 if (currentDateTime === null || duration === null) {
                     // shouldn't happen
                     break;
                 }
                 currentDateTime = addDuration(currentDateTime, duration);
-                console.log(currentDateTime);
             }
             if (currentDateTime < now) {
                 row.style.visibility = isVisible ? 'visible' : 'collapse';
