@@ -2,7 +2,7 @@
   "description": "Adds a toggle to GDQ Schedule table, which allows hiding already finished runs",
   "manifest_version": 2,
   "name": "GDQ Schedule Enhancement",
-  "version": "1.1",
+  "version": "1.2",
   "homepage_url": "https://github.com/graynk/gdq-schedule-extension",
   "icons": {
     "48": "icons/gdq-48.png",

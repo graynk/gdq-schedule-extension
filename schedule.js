@@ -16,6 +16,9 @@ const MONTHS = {
 const SECOND = 1000;
 const MINUTE = 60 * SECOND;
 const HOUR = 60 * MINUTE;
+const HIDE_FINISHED = 'hideFinished';
+const DAY_SPLIT = 'day-split';
+const START_TIME = 'start-time';
 
 class Duration {
     constructor(duration) {
@@ -86,7 +89,7 @@ function addDuration(datetime, duration) {
     return new Date(datetime.getTime() + duration.hours + duration.minutes + duration.seconds);
 }
 
-function main(){
+async function main() {
     if (window.hasRun) {
         return;
     }
@@ -111,16 +114,17 @@ function main(){
     const switcher = document.createElement('input');
     switcher.name = 'Hide done';
     switcher.type = 'checkbox';
-    switcher.checked = true;
+    switcher.checked = localStorage.getItem(HIDE_FINISHED) !== 'false';
 
     function switchListener() {
+        localStorage.setItem(HIDE_FINISHED, switcher.checked.toString())
         const isVisible = !switcher.checked;
         let currentDateTime = null;
         const now = new Date();
         const nowDate = new Date();
         nowDate.setHours(0, 0, 0, 0);
         for (const row of body.children) {
-            if (row.className === 'day-split') {
+            if (row.className === DAY_SPLIT) {
                 currentDateTime = parseDate(row.textContent);
                 continue;
             }
@@ -131,13 +135,13 @@ function main(){
             if (currentDateTime < nowDate) {
                 const nextHeader = row.nextElementSibling;
                 const nextBottom = row.nextElementSibling.nextElementSibling;
-                const isLastRunOfheDay = nextHeader.className === 'day-split' || nextBottom.className === 'day-split';
+                const isLastRunOfheDay = nextHeader.className === DAY_SPLIT || nextBottom.className === DAY_SPLIT;
                 if (!isLastRunOfheDay) {
                     row.style.visibility = isVisible ? 'visible' : 'collapse';
                     continue;
                 }
             }
-            if (row.children[0].classList[0] === 'start-time') {
+            if (row.children[0].classList[0] === START_TIME) {
                 currentDateTime = parseTime(currentDateTime, row.children[0].textContent);
                 const duration = new Duration(row.nextElementSibling.children[0].textContent);
                 if (currentDateTime === null || duration === null) {
@@ -157,7 +161,15 @@ function main(){
     switcher.addEventListener('change', switchListener);
     headerNameCell.textContent += ' | Hide finished runs: ';
     headerNameCell.appendChild(switcher);
-
+    let count = 0;
+    while (body.firstElementChild.className !== DAY_SPLIT) {
+        if (count > 100) {
+            // give up
+            return;
+        }
+        await new Promise(resolve => setTimeout(resolve, 10));
+        count++;
+    }
     switchListener();
 }
 
