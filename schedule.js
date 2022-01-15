@@ -74,7 +74,7 @@ function parseTime(date, time) {
         return null;
     }
 
-    if (split[1] === 'PM') {
+    if (split[1] === 'PM' && hours !== 12) {
         hours += 12;
     }
 
